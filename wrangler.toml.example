@@ -1,0 +1,28 @@
+name = "tmdb-api"
+main = "dist/worker/esm/worker.js"
+compatibility_date = "<YOUR_COMAPABILITY_DATE>"
+node_compat = true
+
+[vars]
+GRAPHQL_PATH="/graphql"
+LOGGER_LEVEL="error"
+USE_CF_KV="true"
+
+### SECRETS:
+# MOVIE_DB_API_V4_KEY=""
+# MOVIE_DB_API_V3_KEY=""
+
+[build]
+command="npm run build"
+watch_dir="src"
+
+[env.production]
+kv_namespaces = [
+  { binding = "GRAPHQL_CACHE", id = "<YOUR_PRODUCTION_KV_ID>" }
+]
+
+[env.development]
+workers_dev = true
+kv_namespaces = [
+  { binding = "GRAPHQL_CACHE", id = "<YOUR_DEVELOPMENT_KV_ID>" }
+]

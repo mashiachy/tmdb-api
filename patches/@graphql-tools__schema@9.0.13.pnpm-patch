@@ -1,0 +1,30 @@
+diff --git a/cjs/addResolversToSchema.js b/cjs/addResolversToSchema.js
+index 7b0f8d5df92ef43770ba546daebf6d1b1b29f67a..d71c54dbf974a47b09e3a9f691d7a7fac2a0d754 100644
+--- a/cjs/addResolversToSchema.js
++++ b/cjs/addResolversToSchema.js
+@@ -12,8 +12,8 @@ function addResolversToSchema({ schema, resolvers: inputResolvers, defaultFieldR
+         : inputResolvers;
+     for (const typeName in resolvers) {
+         const resolverValue = resolvers[typeName];
+-        const resolverType = typeof resolverValue;
+-        if (resolverType !== 'object') {
++        const resolverInstanceOfObject = resolverValue instanceof Object;
++        if (!resolverInstanceOfObject) {
+             throw new Error(`"${typeName}" defined in resolvers, but has invalid value "${resolverValue}". The resolver's value must be of type object.`);
+         }
+         const type = schema.getType(typeName);
+diff --git a/esm/addResolversToSchema.js b/esm/addResolversToSchema.js
+index 1a5f36e614ff7fc603bafbbc999a42e094f1dcca..2389872825ed51fa12f4b632c51a0161aba1eacf 100644
+--- a/esm/addResolversToSchema.js
++++ b/esm/addResolversToSchema.js
+@@ -9,8 +9,8 @@ export function addResolversToSchema({ schema, resolvers: inputResolvers, defaul
+         : inputResolvers;
+     for (const typeName in resolvers) {
+         const resolverValue = resolvers[typeName];
+-        const resolverType = typeof resolverValue;
+-        if (resolverType !== 'object') {
++        const resolverInstanceOfObject = resolverValue instanceof Object;
++        if (!resolverInstanceOfObject) {
+             throw new Error(`"${typeName}" defined in resolvers, but has invalid value "${resolverValue}". The resolver's value must be of type object.`);
+         }
+         const type = schema.getType(typeName);

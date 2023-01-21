@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ESNext",
+    "jsx": "preserve",
+    "lib": ["esnext"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist"
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.gql",
+    "./src/**/*.graphql",
+    "./types/**/*.d.ts",
+    "./build.ts",
+    "types/typings.d.ts"
+  ],
+  "ts-node": {
+    "swc": true,
+    "require": ["graphql-import-node/register", "dotenv/config"],
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
+}

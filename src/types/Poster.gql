@@ -1,0 +1,18 @@
+type Poster implements Image {
+  file: String
+  custom(size: String): URL
+  original: URL
+  colors: ExtractedColors
+  "w92"
+  thumbnail: URL
+  "w154"
+  tiny: URL
+  "w185"
+  small: URL
+  "w342"
+  medium: URL
+  "w500"
+  large: URL
+  "w780"
+  huge: URL
+}

@@ -1,0 +1,12 @@
+type Still implements Image {
+  file: String
+  custom(size: String): URL
+  original: URL
+  colors: ExtractedColors
+  "w92"
+  small: URL
+  "w185"
+  medium: URL
+  "w300"
+  large: URL
+}

@@ -1,0 +1,10 @@
+interface Image {
+  "The filename of the image. Used to construct URLs given a base URL and a size."
+  file: String
+  "Returns a URL for an image with the given dimensions."
+  custom(size: String): URL
+  "Returns a URL for an image in it's original size."
+  original: URL
+  "A hash of extracted colors from the image."
+  colors: ExtractedColors
+}
