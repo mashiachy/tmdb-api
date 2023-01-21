@@ -53,7 +53,8 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "@graphql-tools/schema@9.0.13": "patches/@graphql-tools__schema@9.0.13.pnpm-patch"
+      "@graphql-tools/schema@9.0.13": "patches/@graphql-tools__schema@9.0.13.pnpm-patch",
+      "apollo-server-integration-cloudflare-workers@2.0.0": "patches/apollo-server-integration-cloudflare-workers@2.0.0.pnpm-patch"
     }
   }
 }

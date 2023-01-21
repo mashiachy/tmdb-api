@@ -5,7 +5,7 @@ Many thanks to the author of this [repository](https://github.com/Saeris/tmdb-ap
 
 ## 🛠️ Setup
 
-Install dependencies by running `pnpm install`, then create a new file in the root directory named `.env` (use `example.env` to see options). You'll need to get an API key from The Movie DB in order to run any queries. For more information, please read the [Movie DB docs](https://developers.themoviedb.org/3/getting-started/introduction). Additionally, for extra features with Images put to the file AWS S3 envs. In your new `.env` file, copy + paste the following and replace the text following the `=` sign with your newly create API keys.
+Install dependencies by running `pnpm install`, then create a new file in the root directory named `.env` (use `example.env` to see options). You'll need to get an API key from The Movie DB in order to run any queries. For more information, please read the [Movie DB docs](https://developers.themoviedb.org/3/getting-started/introduction). In your new `.env` file, copy + paste the following and replace the text following the `=` sign with your newly create API keys.
 
 `.env.example`:
 

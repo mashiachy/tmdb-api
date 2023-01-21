@@ -1,0 +1,72 @@
+diff --git a/dist/kv-cache.d.ts b/dist/kv-cache.d.ts
+index eb5b3d40fbcb43c10cf289dc94f19e4b0b15df62..e2577822b71f11d4fa4dff3bc97ef7cea45069fb 100644
+--- a/dist/kv-cache.d.ts
++++ b/dist/kv-cache.d.ts
+@@ -1,5 +1,6 @@
+ import type { KeyValueCacheSetOptions, KeyValueCache } from "@apollo/utils.keyvaluecache";
+ export declare class KVCache implements KeyValueCache {
++    constructor(env: any);
+     get(key: string): Promise<string | undefined>;
+     set(key: string, value: string, options?: KeyValueCacheSetOptions): Promise<void>;
+     delete(key: string): Promise<void>;
+diff --git a/dist/kv-cache.js b/dist/kv-cache.js
+index c19822c2cc8aab9d78491c0dd5469cb87a2645c1..dba676f76cb11ebb41ae991e596683795c6617d9 100644
+--- a/dist/kv-cache.js
++++ b/dist/kv-cache.js
+@@ -1,6 +1,10 @@
+ export class KVCache {
++    env;
++    constructor(env) {
++        this.env = env;
++    }
+     async get(key) {
+-        const value = await GRAPHQL_CACHE.get(key);
++        const value = await this.env.GRAPHQL_CACHE.get(key);
+         return value === null ? undefined : value;
+     }
+     set(key, value, options) {
+@@ -8,10 +12,10 @@ export class KVCache {
+         if (options) {
+             opts.expirationTtl = Number(options.ttl) < 60 ? Number(options.ttl) : undefined;
+         }
+-        return GRAPHQL_CACHE.put(key, value, opts);
++        return this.env.GRAPHQL_CACHE.put(key, value, opts);
+     }
+     delete(key) {
+-        return GRAPHQL_CACHE.delete(key);
++        return this.env.GRAPHQL_CACHE.delete(key);
+     }
+ }
+ //# sourceMappingURL=kv-cache.js.map
+\ No newline at end of file
+diff --git a/src/kv-cache.ts b/src/kv-cache.ts
+index 9dca0e053701447a231d9ef7ef4893a6a25d0de1..0b7d1135d7abec694c6be1264ef7643e3538422c 100644
+--- a/src/kv-cache.ts
++++ b/src/kv-cache.ts
+@@ -2,8 +2,12 @@ import type { KeyValueCacheSetOptions, KeyValueCache } from "@apollo/utils.keyva
+ import type { KVNamespacePutOptions } from "@cloudflare/workers-types";
+ 
+ export class KVCache implements KeyValueCache {
++  env: any;
++  constructor(env: any) {
++    this.env = env;
++  }
+   async get(key: string) {
+-    const value = await GRAPHQL_CACHE.get(key);
++    const value = await this.env.GRAPHQL_CACHE.get(key);
+     return value === null ? undefined : value;
+   }
+ 
+@@ -14,10 +18,10 @@ export class KVCache implements KeyValueCache {
+       opts.expirationTtl = Number(options.ttl) < 60 ? Number(options.ttl) : undefined;
+     }
+ 
+-    return GRAPHQL_CACHE.put(key, value, opts);
++    return this.env.GRAPHQL_CACHE.put(key, value, opts);
+   }
+ 
+   delete(key: string) {
+-    return GRAPHQL_CACHE.delete(key);
++    return this.env.GRAPHQL_CACHE.delete(key);
+   }
+ }

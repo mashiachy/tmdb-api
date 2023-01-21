@@ -74,7 +74,7 @@ const handleRequest = async (request: Request, env: Env) => {
               v4apiKey: env.MOVIE_DB_API_V4_KEY
             }
             const cache = env.USE_CF_KV
-              ? new KVCache()
+              ? new KVCache(env)
               : VarsCachedMap.server.value!.cache
             return {
               ...context,
