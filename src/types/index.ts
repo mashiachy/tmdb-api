@@ -11,7 +11,6 @@ import { default as Country } from "./Country.gql"
 import { default as Credit } from "./Credit.gql"
 import { default as Crew } from "./Crew.gql"
 import { default as Episode } from "./Episode.gql"
-import { default as ExtractedColors } from "./ExtractedColors.gql"
 import { default as Genre } from "./Genre.gql"
 import { default as Job } from "./Job.gql"
 import { default as Keyword } from "./Keyword.gql"
@@ -48,7 +47,6 @@ export const types = [
   Credit,
   Crew,
   Episode,
-  ExtractedColors,
   Genre,
   Job,
   Keyword,

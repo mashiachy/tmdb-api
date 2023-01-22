@@ -2,21 +2,20 @@
 // Use this file as entrypoint for Clouudflare Worker environment
 
 import { createServer, type Context } from "./apollo/server"
-import {
-  startServerAndCreateCloudflareHandler,
-  KVCache
-} from "apollo-server-integration-cloudflare-workers"
+import { KVCache } from "./apollo/kvCache"
+import { startServerAndCreateCloudflareHandler } from "apollo-server-integration-cloudflare-workers"
 
 import { models } from "./models"
 import { createDataSources } from "./sources"
 import { setupReporting, type LoggerLevel } from "./lib/reporting"
 
 interface Env {
-  MOVIE_DB_API_V3_KEY?: string
-  MOVIE_DB_API_V4_KEY?: string
-  GRAPHQL_PATH?: string
-  USE_CF_KV?: string
-  LOGGER_LEVEL?: string
+  MOVIE_DB_API_V3_KEY: string
+  MOVIE_DB_API_V4_KEY: string
+  GRAPHQL_PATH: string
+  USE_CF_KV: string
+  LOGGER_LEVEL: string
+  GRAPHQL_CACHE: KVNamespace
 }
 
 const VarsCachedMap = {
@@ -74,7 +73,7 @@ const handleRequest = async (request: Request, env: Env) => {
               v4apiKey: env.MOVIE_DB_API_V4_KEY
             }
             const cache = env.USE_CF_KV
-              ? new KVCache(env)
+              ? new KVCache(env.GRAPHQL_CACHE)
               : VarsCachedMap.server.value!.cache
             return {
               ...context,
@@ -99,8 +98,10 @@ const handleRequest = async (request: Request, env: Env) => {
   }
 }
 
-const fetch: ExportedHandlerFetchHandler<Env> = async (request, env) => {
-  return await handleRequest(request, env)
+// @ts-expect-error: node-fetch Headers is not compatible with cloudflare worker Headers
+// it is required polyfill for using @apollo/datasources-rest with cloudflare worker
+Headers.prototype.raw = function () {
+  return Object.fromEntries(this.entries())
 }
 
-export default { fetch }
+export default { fetch: handleRequest }

@@ -32,7 +32,7 @@ From `package.json`:
 "scripts": {
   "dev": "nodemon",                                                 // Run in dev mode (with watching files)
   "serve": "ts-node src/index.ts",                                  // Run node entrypoint
-  "build": "tsup",                                                  // Build both versions (node with express + cloudflare worker)
+  "build": "tsup",                                                  // Build node version
   "preview": "node -r dotenv/config dist/node/esm/index.js",        // Preview builded node version
   "check": "tsc --noEmit",                                          // Check types
   "format": "prettier --plugin-search-dir . --write ."              // Format code

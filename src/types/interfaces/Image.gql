@@ -5,6 +5,4 @@ interface Image {
   custom(size: String): URL
   "Returns a URL for an image in it's original size."
   original: URL
-  "A hash of extracted colors from the image."
-  colors: ExtractedColors
 }

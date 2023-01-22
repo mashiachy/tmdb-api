@@ -17,6 +17,7 @@ jspm_packages
 /.awcache
 /.ssh
 /electron.js*
+/wrangler-dist
 
 # Files
 .DS_STORE

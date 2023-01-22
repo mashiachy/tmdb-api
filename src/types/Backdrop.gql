@@ -2,7 +2,6 @@ type Backdrop implements Image {
   file: String
   custom(size: String): URL
   original: URL
-  colors: ExtractedColors
   "w300"
   small: URL
   "w780"

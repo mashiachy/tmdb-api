@@ -25,10 +25,13 @@ export interface Sources {
 
 export type Cache = KeyValueCache<string>
 
+// it is required for usage in cf worker (error in HTTPCache in @apollo/datasources-rest)
+const customFetch = fetch.bind(globalThis)
+
 export const createDataSources = (args: {
   context: Context
   cache: Cache
 }) => ({
-  Images: new Images(args),
-  TMDB: new TMDB(args)
+  Images: new Images(),
+  TMDB: new TMDB({ ...args, fetch: customFetch })
 })

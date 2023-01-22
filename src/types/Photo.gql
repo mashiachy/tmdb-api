@@ -2,7 +2,6 @@ type Photo implements Image {
   file: String
   custom(size: String): URL
   original: URL
-  colors: ExtractedColors
   "w45"
   small: URL
   "w185"

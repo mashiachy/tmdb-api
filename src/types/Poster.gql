@@ -2,7 +2,6 @@ type Poster implements Image {
   file: String
   custom(size: String): URL
   original: URL
-  colors: ExtractedColors
   "w92"
   thumbnail: URL
   "w154"

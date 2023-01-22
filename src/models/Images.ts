@@ -1,4 +1,4 @@
-import type { ColorsResult, ImageResult } from "../sources/images"
+import type { ImageResult } from "../sources/images"
 import type { Resolver } from "../resolvers/utils"
 
 interface Size {
@@ -21,12 +21,6 @@ export class ImageType {
     { dataSources }
   ) => dataSources.Images.original({ id })
 
-  static colors: Resolver<ImageType, {}, ColorsResult> = (
-    { file: id },
-    _,
-    { dataSources }
-  ) => dataSources.Images.colors(id)
-
   constructor(init: ImageType) {
     // eslint-disable-next-line camelcase
     this.file = init.file_path || init
@@ -42,7 +36,6 @@ export class Backdrop extends ImageType {
   imageType: string = `backdrop`
   static custom = ImageType.custom
   static original = ImageType.original
-  static colors = ImageType.colors
 
   static small: Resolver<Backdrop, {}, ImageResult> = (
     { file: id },
@@ -69,7 +62,6 @@ export class Logo extends ImageType {
   imageType: string = `logo`
   static custom = ImageType.custom
   static original = ImageType.original
-  static colors = ImageType.colors
 
   static icon: Resolver<Logo, {}, ImageResult> = (
     { file: id },
@@ -114,7 +106,6 @@ export class Photo extends ImageType {
   imageType: string = `photo`
   static custom = ImageType.custom
   static original = ImageType.original
-  static colors = ImageType.colors
 
   static small: Resolver<Photo, {}, ImageResult> = (
     { file: id },
@@ -141,7 +132,6 @@ export class Poster extends ImageType {
   imageType: string = `poster`
   static custom = ImageType.custom
   static original = ImageType.original
-  static colors = ImageType.colors
 
   static thumbnail: Resolver<Poster, {}, ImageResult> = (
     { file: id },
@@ -186,7 +176,6 @@ export class Still extends ImageType {
   imageType: string = `still`
   static custom = ImageType.custom
   static original = ImageType.original
-  static colors = ImageType.colors
 
   static small: Resolver<Still, {}, ImageResult> = (
     { file: id },

@@ -2,7 +2,6 @@ type Logo implements Image {
   file: String
   custom(size: String): URL
   original: URL
-  colors: ExtractedColors
   "w45"
   icon: URL
   "w92"
