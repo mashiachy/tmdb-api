@@ -72,15 +72,6 @@ export class TMDB extends RESTDataSource {
     this.context.logger.error(message)
   }
 
-  async didReceiveResponse<TResult = unknown>(
-    response: Response
-  ): Promise<TResult> {
-    if (response.ok) {
-      return this.parseBody(response) as unknown as Promise<TResult>
-    }
-    throw await this.errorFromResponse({ response })
-  }
-
   willSendRequest(_path: string, request: Request): void {
     const v4apiKey = this.context.v4apiKey
     const v3apiKey = this.context.v3apiKey
@@ -106,14 +97,16 @@ export class TMDB extends RESTDataSource {
   }
 
   async errorFromResponse({
-    response
+    response,
+    parsedBody
   }: {
     response: Response
+    parsedBody: unknown
   }): Promise<ApolloError> {
     const endpoint = response.url
       .substring(0, response.url.indexOf(`?`))
       .replace(this.baseURL, ``)
-    const body = (await this.parseBody(response)) as Record<string, unknown>
+    const body = parsedBody as any
     const message = `${response.status} ${response.statusText}: ${String(
       body.status_message
     )}`
@@ -298,14 +291,14 @@ export class TMDB extends RESTDataSource {
   // Get Countries `/configuration/countries`
   countries: APIRequest<{}, Model<"country">[]> = async ({ ...params }, info) =>
     this.mapToModel(
-      this.get(`/configuration/countries`, this.extractTTL(info, params)),
+      this.get(`configuration/countries`, this.extractTTL(info, params)),
       this.context.models.country
     )
 
   // Get Jobs `/configuration/jobs`
   jobs: APIRequest<{}, Model<"job">[]> = async ({ ...params }, info) => {
     const results: { department: string; jobs: string[] }[] = await this.get(
-      `/configuration/jobs`,
+      `configuration/jobs`,
       this.extractTTL(info, params)
     )
     return results
@@ -321,7 +314,7 @@ export class TMDB extends RESTDataSource {
     info
   ) =>
     this.mapToModel(
-      this.get(`/configuration/languages`, this.extractTTL(info, params)),
+      this.get(`configuration/languages`, this.extractTTL(info, params)),
       this.context.models.language
     )
 
@@ -335,7 +328,7 @@ export class TMDB extends RESTDataSource {
   ) => {
     // eslint-disable-next-line camelcase
     const results: { iso_3166_1: string; zones: string[] }[] = await this.get(
-      `/configuration/timezones`,
+      `configuration/timezones`,
       this.extractTTL(info, params)
     )
     return results
@@ -350,7 +343,7 @@ export class TMDB extends RESTDataSource {
   // Get Details `/credit/${credit_id}`
   credit: APIRequest<ByID, Model<"credit">> = async ({ id, ...params }, info) =>
     this.context.models.credit(
-      await this.get(`/credit/${id}`, this.extractTTL(info, params))
+      await this.get(`credit/${id}`, this.extractTTL(info, params))
     )
 
   // --- Discover ---
@@ -392,7 +385,7 @@ export class TMDB extends RESTDataSource {
     info
   ) => {
     const { genres }: { genres: Model<"genre">[] } = await this.get(
-      `/genre/movie/list`,
+      `genre/movie/list`,
       this.extractTTL(info, params)
     )
     return genres.map((genre) => this.context.models.genre(genre))
@@ -404,7 +397,7 @@ export class TMDB extends RESTDataSource {
     info
   ) => {
     const { genres }: { genres: Model<"genre">[] } = await this.get(
-      `/genre/tv/list`,
+      `genre/tv/list`,
       this.extractTTL(info, params)
     )
     return genres.map((genre) => this.context.models.genre(genre))
