@@ -87,7 +87,14 @@ const handleRequest = async (request: Request, env: Env) => {
   try {
     if (pathname === env.GRAPHQL_PATH) {
       // @ts-expect-error: request typing missmatched in apollo integration and cloudflare worker
-      return await VarsCachedMap.handleGraphQLRequest.value(request)
+      const response = await VarsCachedMap.handleGraphQLRequest.value(request)
+      const responseHeaders = response.headers
+      responseHeaders.set("Access-Control-Allow-Origin", "*")
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: responseHeaders
+      })
     }
 
     return new Response("Not found", { status: 404 })
