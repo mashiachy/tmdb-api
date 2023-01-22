@@ -86,6 +86,18 @@ const handleRequest = async (request: Request, env: Env) => {
 
   try {
     if (pathname === env.GRAPHQL_PATH) {
+      if (request.method === "OPTIONS") {
+        const headers = new Headers({
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "*"
+        })
+        return new Response(null, {
+          status: 200,
+          statusText: "OK",
+          headers
+        })
+      }
+
       // @ts-expect-error: request typing missmatched in apollo integration and cloudflare worker
       const response = await VarsCachedMap.handleGraphQLRequest.value(request)
       const responseHeaders = response.headers

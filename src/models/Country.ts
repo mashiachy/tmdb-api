@@ -4,7 +4,7 @@ export class Country {
   code!: string
   name!: string
 
-  constructor({ iso_3166_1: code, english_name: name, ...rest }: Country) {
+  constructor({ iso_3166_1: code, name, ...rest }: Country) {
     Object.assign(this, rest)
     this.code = code
     this.name = name
