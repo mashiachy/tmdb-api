@@ -109,6 +109,24 @@ const handleRequest = async (request: Request, env: Env) => {
       })
     }
 
+    // Proxy for images
+    if (pathname.startsWith("/t/p")) {
+      const imageResponse = await fetch("https://image.tmdb.org/" + pathname, {
+        method: "GET"
+      })
+      if (imageResponse.ok) {
+        const responseHeaders = new Headers(imageResponse.headers)
+        responseHeaders.set("Access-Control-Allow-Origin", "*")
+        responseHeaders.set("Cache-Control", "public, max-age=31536000")
+        return new Response(await imageResponse.blob(), {
+          status: 200,
+          statusText: "OK",
+          headers: responseHeaders
+        })
+      }
+      return imageResponse
+    }
+
     return new Response("Not found", { status: 404 })
   } catch (err: any) {
     return new Response("Something went wrong", {
